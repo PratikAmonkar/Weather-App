@@ -67,7 +67,6 @@ class _HomePageState extends State<HomePage> {
                     snapshot.data!.pressure.toString(),
                     snapshot.data!.humidity.toString(),
                     snapshot.data!.feelsLike.toString(),
-
                     "m/s",
                     "hPa",
                     "%",
@@ -90,7 +89,22 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: AlertDialog(
+                  title: const Text("Alert!!"),
+                  content: const Text("No internet connection"),
+                  actions: [
+                    ElevatedButton(
+                      child: const Text("OK"),
+                      onPressed: () {
+                        SystemChannels.platform
+                            .invokeMethod('SystemNavigator.pop');
+                      },
+                    ),
+                  ],
+                ),
+              );
             } else {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
